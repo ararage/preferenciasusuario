@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:preferenciasusuario/src/share_prefs/preferencias_usuario.dart';
 import 'package:preferenciasusuario/src/widgets/menu_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsPage extends StatefulWidget {
 
@@ -12,31 +12,26 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   
-  bool _colorSecundario = false;
-  int _genero = 1;
-  String _nombre = 'Pedro';
+  bool _colorSecundario;
+  int _genero;
+  String _nombre = '';
 
   TextEditingController _textController;
+
+  final prefs = new PreferenciaUsuario();
 
   @override
   void initState(){
     super.initState();
-    cargarPrefs();
+    _genero = prefs.genero;
+    _colorSecundario = prefs.colorSecundario;
+    _nombre = prefs.nombreUsuario;
     _textController = new TextEditingController(text: _nombre);
   }
 
-  cargarPrefs() async{
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _genero = _prefs.getInt('genero');
-    });
-  }
-
   _setSelectedRadio(int valor) async{
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-
     setState((){
-      _prefs.setInt('genero', valor);
+      prefs.genero = valor;
       _genero = valor;
     });
   }
@@ -46,6 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Ajustes'),
+        backgroundColor: (prefs.colorSecundario)? Colors.teal : Colors.blue,
       ),
       drawer: MenuWidget(),
       body: ListView(
@@ -60,6 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text('Color secundario'),
             onChanged: (value){
               setState(() {
+                prefs.colorSecundario = value;
                 _colorSecundario = value;
               });
             },
@@ -85,7 +82,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 labelText: 'Nombre',
                 helperText: 'Nombre de la persona usando el teléfono'
               ),
-              onChanged: (value){},
+              onChanged: (value){
+                prefs.nombreUsuario = value;
+                _nombre = value;
+              },
             ),
           )
         ],

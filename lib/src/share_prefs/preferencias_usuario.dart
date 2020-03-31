@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../pages/home_page.dart';
+
 class PreferenciaUsuario {
   
   static final PreferenciaUsuario _instancia = new PreferenciaUsuario._internal();
@@ -40,6 +42,14 @@ class PreferenciaUsuario {
 
   set nombreUsuario(String value){
     _prefs.setString('nombreUsuario', value);
+  }
+
+  get ultimaPagina{
+    return _prefs.getString('ultimaPagina') ?? HomePage.routeName;
+  }
+
+  set ultimaPagina(String value){
+    _prefs.setString('ultimaPagina', value);
   }
   
 }

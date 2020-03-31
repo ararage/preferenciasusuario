@@ -6,10 +6,12 @@ class HomePage extends StatelessWidget {
 
   static final String routeName = 'home';
 
+    final prefs = new PreferenciaUsuario();
+
   @override
   Widget build(BuildContext context) {
 
-    final prefs = new PreferenciaUsuario();
+    prefs.ultimaPagina = HomePage.routeName;
 
     return Scaffold(
       appBar: AppBar(

@@ -23,6 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState(){
     super.initState();
+    prefs.ultimaPagina = SettingsPage.routeName;
     _genero = prefs.genero;
     _colorSecundario = prefs.colorSecundario;
     _nombre = prefs.nombreUsuario;
